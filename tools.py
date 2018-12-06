@@ -108,25 +108,27 @@ def strategy(player,deck,dealerFaceCard):
     if(totals(player.cards) > 21): #check if player has busted
     	player.bust = True
 
-def calculateWinner(players):
+def dealerStrategy(player,deck,highestCards):
+    while(totals(player) < highestCards):
+        player.cards.append(deck.flipCard())
+        player.hasHit = True
+        if(totals(player) > 21):
+            player.bust = True
+
+
+def largestPlayer(players):
     winner  = player("temp")
     for i in range(len(players)):
+       
         if(players[i].bust != True):
-            total = totals(players[i].cards)
-
-            for j in range(len(players[i].cards)):
-                print(players[i].cards[j] , " ")
-
+            total = totals(players[i].cards)    
 
             if(total > totals(winner.cards)):
                 winner = players[i]
-            print(players[i].name , " has ", total , " cards")
             total = 0
-        else:
-            print(players[i].name , " busted")
-    print("Winner is " , winner.name , " who has ", totals(winner.cards) , " cards")
+    return winner
 
-#class MyThread(threading.Thread):
+
 def run(player,deck,dealerFaceCard):
     while(not((player.hasHit==False) or (player.bust == True))):
         strategy(player,deck,dealerFaceCard)

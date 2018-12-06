@@ -6,4 +6,6 @@ class player():
 		self.name = name
 	def getCards(self):
 		return self.cards
+	def resetCards(self):
+		self.cards=[]
 
