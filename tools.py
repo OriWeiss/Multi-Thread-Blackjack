@@ -108,12 +108,14 @@ def strategy(player,deck,dealerFaceCard):
     if(totals(player.cards) > 21): #check if player has busted
     	player.bust = True
 
-def dealerStrategy(player,deck,highestCards):
-    while(totals(player) < highestCards):
-        player.cards.append(deck.flipCard())
-        player.hasHit = True
-        if(totals(player) > 21):
-            player.bust = True
+def dealerStrategy(dealer,decks,highestCards):
+    dealer.bust = False
+    while((totals(dealer.cards) < highestCards) ):
+        dealer.cards.append(decks.flipCard())
+        dealer.hasHit = True
+        if(totals(dealer.cards) > 21):
+            dealer.bust = True
+    #print("Inside dealer strategy for ",dealer.name)
 
 
 def largestPlayer(players):
@@ -128,9 +130,36 @@ def largestPlayer(players):
             total = 0
     return winner
 
+def calculateWinner(players,dealer):
+    winner  = player("temp")
+    for i in range(len(players)):
+        cards = ""
+        for j in range(len(players[i].cards)):
+            cards = str(players[i].cards[j]) + " "+ cards
+        if(players[i].bust != True):
+            total = totals(players[i].cards)
+            print(players[i].name, " has total ", total, " with cards ", cards)
+
+            if(total > totals(winner.cards)):
+                winner = players[i]
+            total = 0
+        else:
+            print(players[i].name , " busted")
+            print(cards)
+    if(dealer.bust == False):
+        cards =""
+        for j in range(len(dealer.cards)):
+            cards = str(dealer.cards[j]) + " "+ cards   
+        print(dealer.name, " has total ", totals(dealer.cards), " with cards ", cards)
+        if(totals(winner.cards) < totals(dealer.cards)):
+            winner = dealer 
+    else:
+        print(dealer.name, " busted")
+    return winner
 
 def run(player,deck,dealerFaceCard):
     while(not((player.hasHit==False) or (player.bust == True))):
         strategy(player,deck,dealerFaceCard)
+    #print("In strategy for ", player.name)
         
 

@@ -16,8 +16,8 @@ from tools import *
 
 
 #initiate list of players
-player =[(player("Jimmy")),(player("Bobby"))]
-dealer =player("Dealer")
+players =[(player("Jimmy")),(player("Bobby"))]
+dealer = player("Dealer")
 deck = Deck() 
 
 
@@ -26,13 +26,13 @@ deck = Deck()
 #Take user input
 rounds = input("How many rounds should we play?")
 #run a for loop for the amount of times to play
-for z in range(rounds):
+for z in range(int(rounds)):
 
 	jobs = []
 #handout cards to each player
-	for i in range(len(player)):
-		player[i].cards.append(deck.flipCard()) #same as hitting
-		player[i].cards.append(deck.flipCard())
+	for i in range(len(players)):
+		players[i].cards.append(deck.flipCard()) #same as hitting
+		players[i].cards.append(deck.flipCard())
 	
 	dealer.cards.append(deck.flipCard())
 	dealer.cards.append(deck.flipCard())
@@ -42,8 +42,8 @@ for z in range(rounds):
 
 
 
-	for i in range(len(player)):
-		jobs.append(threading.Thread(target = run(player[i],deck,dealerFaceCard)))
+	for i in range(len(players)):
+		jobs.append(threading.Thread(target = run(players[i],deck,dealerFaceCard)))
 		jobs[i].start()
 	
 
@@ -51,16 +51,19 @@ for z in range(rounds):
 	for j in range(len(jobs)):
 		jobs[j].join()
 
-	dealerThread = threading.Thread(target = dealerStrategy(dealer,deck,totals(largestPlayer(player).cards)))
+	dealerThread = threading.Thread(target = dealerStrategy(dealer,deck,totals(largestPlayer(players).cards)))
 	dealerThread.start()
 	dealerThread.join()
 
 
 #calculate who the winner is
-	calculateWinner(player)
+	winner = calculateWinner(players,dealer)
+	print("The winner is " , winner.name,"\n")
+
 #after each game,reset the cards
 	deck.resetDeck()
 	#reset all player carc
-	for i in range(len(player)):
-		player[i].resetCards()
-
+	for i in range(len(players)):
+		players[i].resetCards()
+	
+	dealer.resetCards()
