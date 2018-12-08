@@ -23,7 +23,7 @@ deck = Deck()
 numOfPlayers = input("How many players should there be? (in addition to the default 2)")
 for i in range(int(numOfPlayers)):
 	playerName = input("Name of player: ")
-	players.append(player(playerName))
+	players.append(player(str(playerName)))
 
 
 
