@@ -4,18 +4,18 @@ import threading
 from deck import *
 
 def isWinner(players):
-	playersPlaying = 0
-	playersHit = 0
-	for i in range(len(players)):
-		if(players[i].playing == True):
-			playersPlaying +=1
-		if(players[i].hasHit == True): 
-			playersHit+=1
-	if(playersPlaying == 1): #if only one player is playing he is the winner
-		return True
-	if(playersHit ==0): #if no one hit there needs to be a winner and is to be calculated
-		return True
-	return False # no one has won
+    playersPlaying = 0
+    playersHit = 0
+    for i in range(len(players)):
+        if(players[i].playing == True):
+            playersPlaying +=1
+        if(players[i].hasHit == True):
+            playersHit+=1
+    if(playersPlaying == 1): #if only one player is playing he is the winner
+        return True
+    if(playersHit ==0): #if no one hit there needs to be a winner and is to be calculated
+        return True
+    return False # no one has won
 
 # def calculateWinner(players):
 # 	winner = player("Temp")
@@ -28,15 +28,17 @@ def isWinner(players):
 
 def totals(cards):
     total = 0
-    ace = False
+
     for i in range(len(cards)):
         if(cards[i] == 1):
-            ace = True
             total = total + 11
+            cards[i] = 11
+            if (total > 21):
+                total = total - 10
+                cards[i] = 1
         else:
             total = total + cards[i]
-    if(ace == True & total > 21):
-        total = total - 10
+
     return total
 
 
@@ -85,11 +87,8 @@ def strategy(player,deck,dealerFaceCard):
         player.hasHit = True
 
     elif(totals(player.cards)== 10):
-        if(2<=dealerFaceCard<=9):
-            player.hasHit = False
-        else:
-            player.cards.append(deck.flipCard())
-            player.hasHit = True
+        player.cards.append(deck.flipCard())
+        player.hasHit = True
 
     elif(totals(player.cards)== 9):
         if(3<=dealerFaceCard<=6):

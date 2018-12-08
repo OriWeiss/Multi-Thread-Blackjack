@@ -16,7 +16,7 @@ from tools import *
 
 
 #initiate list of players
-players =[(player("Jimmy")),(player("Bobby"))]
+players =[(player("Jimmy")), (player("Bobby"))]
 dealer = player("Dealer")
 deck = Deck() 
 
@@ -70,5 +70,6 @@ for z in range(int(rounds)):
 	for i in range(len(players)):
 		players[i].resetCards()
 		players[i].hasHit = True
+		players[i].bust = False
 	
 	dealer.resetCards()
