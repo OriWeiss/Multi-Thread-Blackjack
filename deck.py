@@ -1,10 +1,6 @@
 #code for the deck of cards
 
 from random import randint
-class card():
-	def __init__(self, number):
-		self.number = number
-
 
 class Deck():
 	def __init__(self):
