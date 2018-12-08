@@ -20,11 +20,15 @@ players =[(player("Jimmy")),(player("Bobby"))]
 dealer = player("Dealer")
 deck = Deck() 
 
+numOfPlayers = input("How many players should there be? (in addition to the default 2)")
+for i in range(int(numOfPlayers)):
+	playerName = input("Name of player: ")
+	players.append(player(playerName))
 
 
 
 #Take user input
-rounds = input("How many rounds should we play?")
+rounds = input("How many rounds should we play?: ")
 #run a for loop for the amount of times to play
 for z in range(int(rounds)):
 
@@ -65,5 +69,6 @@ for z in range(int(rounds)):
 	#reset all player carc
 	for i in range(len(players)):
 		players[i].resetCards()
+		players[i].hasHit = True
 	
 	dealer.resetCards()

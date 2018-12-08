@@ -106,7 +106,7 @@ def strategy(player,deck,dealerFaceCard):
         player.hasHit = True
 
     if(totals(player.cards) > 21): #check if player has busted
-    	player.bust = True
+        player.bust = True
 
 def dealerStrategy(dealer,decks,highestCards):
     dealer.bust = False
