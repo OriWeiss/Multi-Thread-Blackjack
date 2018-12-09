@@ -107,18 +107,28 @@ def strategy(player,deck,dealerFaceCard):
     if(totals(player.cards) > 21): #check if player has busted
         player.bust = True
 
-def dealerStrategy(dealer,decks,highestCards):
+def dealerStrategy(dealer,decks,highestCards, players):
     dealer.bust = False
-    while((totals(dealer.cards) < highestCards) ):
+    while((totals(dealer.cards) < highestCards) and (16>=totals(dealer.cards)<=21) ):
         dealer.cards.append(decks.flipCard())
         dealer.hasHit = True
         if(totals(dealer.cards) > 21):
             dealer.bust = True
-    #print("Inside dealer strategy for ",dealer.name)
+    #if dealer is lowest of all non busted players, he hits, or else he stays
+    dealerLowestActive = False
+    for i in range(len(players)):
+        if(totals(players[i].cards)> totals(dealer.cards) and players[i].bust == False):
+            dealerLowestActive = True
+        else:
+            dealerLowestActive = False
+            break
+    if(dealerLowestActive == True):
+        dealer.cards.append(decks.flipCard())
+
 
 
 def largestPlayer(players):
-    winner  = player("temp")
+    winner = player("temp")
     for i in range(len(players)):
        
         if(players[i].bust != True):
@@ -130,7 +140,7 @@ def largestPlayer(players):
     return winner
 
 def calculateWinner(players,dealer):
-    winner  = player("temp")
+    winners = []
     for i in range(len(players)):
         cards = ""
         for j in range(len(players[i].cards)):
@@ -139,22 +149,33 @@ def calculateWinner(players,dealer):
             total = totals(players[i].cards)
             print(players[i].name, " has total ", total, " with cards ", cards)
 
-            if(total > totals(winner.cards)):
-                winner = players[i]
+            if(total > totals(dealer.cards) and players[i].bust == False):
+                winners.append(players[i])
+            elif(dealer.bust == True and players[i].bust == False):
+                winners.append(players[i])
             total = 0
         else:
             print(players[i].name , " busted")
             print(cards)
+
     if(dealer.bust == False):
-        cards =""
+        cards = ""
         for j in range(len(dealer.cards)):
             cards = str(dealer.cards[j]) + " "+ cards   
         print(dealer.name, " has total ", totals(dealer.cards), " with cards ", cards)
-        if(totals(winner.cards) < totals(dealer.cards)):
-            winner = dealer 
+        if (len(winners) == 0):
+            winners.append(dealer)
+            return winners
+        else:
+            return winners
+
     else:
+        cards = ""
+        for j in range(len(dealer.cards)):
+            cards = str(dealer.cards[j]) + " "+ cards
         print(dealer.name, " busted")
-    return winner
+        print(cards)
+    return winners
 
 def run(player,deck,dealerFaceCard):
     while(not((player.hasHit==False) or (player.bust == True))):

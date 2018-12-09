@@ -23,7 +23,7 @@ deck = Deck()
 numOfPlayers = input("How many players should there be? (in addition to the default 2)")
 for i in range(int(numOfPlayers)):
 	playerName = input("Name of player: ")
-	players.append(player(str(playerName)))
+	players.append(player(playerName))
 
 
 
@@ -41,7 +41,7 @@ for z in range(int(rounds)):
 	dealer.cards.append(deck.flipCard())
 	dealer.cards.append(deck.flipCard())
 	
-	dealerFaceCard =dealer.cards[0]
+	dealerFaceCard = dealer.cards[0]
 	print("Dealer face card is a " , dealerFaceCard)
 
 
@@ -55,15 +55,16 @@ for z in range(int(rounds)):
 	for j in range(len(jobs)):
 		jobs[j].join()
 
-	dealerThread = threading.Thread(target = dealerStrategy(dealer,deck,totals(largestPlayer(players).cards)))
+	dealerThread = threading.Thread(target = dealerStrategy(dealer,deck,totals(largestPlayer(players).cards), players))
 	dealerThread.start()
 	dealerThread.join()
 
 
 #calculate who the winner is
-	winner = calculateWinner(players,dealer)
-	print("The winner is " , winner.name,"\n")
-
+	winners = calculateWinner(players, dealer)
+	for i in range(len(winners)):
+		print(winners[i].name, " wins ")
+	print("\n")
 #after each game,reset the cards
 	deck.resetDeck()
 	#reset all player carc
